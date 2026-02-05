@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Lista de regalos</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 24px; }
+    .grid { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+    .card { border: 1px solid #ddd; border-radius: 12px; padding: 12px; }
+    .muted { color: #666; font-size: 14px; }
+    .row { display:flex; gap:8px; flex-wrap:wrap; }
+    button { padding: 8px 10px; border-radius: 10px; border: 1px solid #aaa; background: #fff; cursor:pointer; }
+    button.primary { border-color:#111; }
+    input, textarea { width: 100%; padding: 8px; border-radius: 10px; border:1px solid #ccc; }
+    .reserved { background: #f7f7f7; }
+    .tokenbox { background:#fff7d6; padding:10px; border:1px solid #f0d37a; border-radius: 12px; }
+  </style>
+</head>
+<body>
+  <h1>Lista de regalos para la Porota 👶🎁</h1>
+  <p class="muted">Reservá un regalo para evitar duplicados. Vas a recibir un código para poder cancelar.</p>
+
+  <div id="msg"></div>
+  <div id="list" class="grid"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
