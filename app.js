@@ -58,27 +58,16 @@ function cardTemplate(item) {
       <div class="muted">Precio est.: ${escapeHtml(String(item.price_est || ""))}</div>
       ${item.url ? `<div style="margin:8px 0;"><a href="${escapeAttr(item.url)}" target="_blank" rel="noreferrer">Ver link</a></div>` : ""}
 
-      ${reserved
-        ? `<div class="muted">✅ Reservado por <b>${escapeHtml(item.reservation.reserved_by)}</b></div>
-           ${item.reservation.message ? `<div class="muted">"${escapeHtml(item.reservation.message)}"</div>` : ""}
-           <details style="margin-top:10px;">
-             <summary>Cancelar reserva</summary>
-             <div style="margin-top:8px;">
-               <input placeholder="Código de cancelación" data-cancel-token="${escapeAttr(item.id)}" />
-               <button data-cancel="${escapeAttr(item.id)}" style="margin-top:8px;">Cancelar</button>
-             </div>
-           </details>`
-        : `<details style="margin-top:10px;">
-             <summary>Reservar este regalo</summary>
-             <div style="margin-top:8px;">
-               <input placeholder="Tu nombre" data-name="${escapeAttr(item.id)}" />
-               <textarea placeholder="Mensaje (opcional)" rows="2" data-message="${escapeAttr(item.id)}"></textarea>
-               <button class="primary" data-reserve="${escapeAttr(item.id)}" style="margin-top:8px;">Lo compro yo</button>
-             </div>
-           </details>`
-      }
-    </div>
-  `;
+   ${reserved
+  ? `<div class="muted">✅ Reservado por <b>${escapeHtml(item.reservation.reserved_by)}</b></div>
+     <details style="margin-top:10px;">
+       <summary>Cancelar reserva</summary>
+       <div style="margin-top:8px;">
+         <input placeholder="Código de cancelación" data-cancel-token="${escapeAttr(item.id)}" />
+         <button data-cancel="${escapeAttr(item.id)}" style="margin-top:8px;">Cancelar</button>
+       </div>
+     </details>`
+  : `...`
 }
 
 function escapeHtml(s){ return String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
@@ -143,4 +132,5 @@ function wireEvents() {
 
 
 render();
+
 
