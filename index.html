@@ -4,27 +4,335 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Lista de regalos</title>
+
   <style>
-    body { font-family: system-ui, sans-serif; margin: 24px; }
-    .grid { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
-    .card { border: 1px solid #ddd; border-radius: 12px; padding: 12px; }
-    .muted { color: #666; font-size: 14px; }
-    .row { display:flex; gap:8px; flex-wrap:wrap; }
-    button { padding: 8px 10px; border-radius: 10px; border: 1px solid #aaa; background: #fff; cursor:pointer; }
-    button.primary { border-color:#111; }
-    input, textarea { width: 100%; padding: 8px; border-radius: 10px; border:1px solid #ccc; }
-    .reserved { background: #f7f7f7; }
-    .tokenbox { background:#fff7d6; padding:10px; border:1px solid #f0d37a; border-radius: 12px; }
+    :root{
+      /* Paleta pastel verde + amarillo */
+      --bg: #FBFDE1;      /* hint of yellow */
+      --butter: #FDFD97;  /* pastel butter */
+      --mint: #A6ECA8;    /* cute green */
+      --mint2:#77DD76;    /* atomic green */
+      --card: #FFFFFF;
+      --card2:#F7FAE8;
+      --border: rgba(20,35,20,.10);
+      --ink: #213021;
+      --muted: rgba(33,48,33,.70);
+
+      --shadow: 0 10px 26px rgba(20,35,20,.10);
+      --radius: 18px;
+    }
+
+    *{ box-sizing:border-box; }
+
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(900px 400px at 10% -10%, rgba(166,236,168,.55), transparent 60%),
+        radial-gradient(900px 450px at 90% 0%, rgba(253,253,151,.65), transparent 55%),
+        var(--bg);
+    }
+
+    /* Banner full-width */
+    .hero{
+      width: 100%;
+      border-bottom: 1px solid var(--border);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.55), rgba(255,255,255,.15)),
+        radial-gradient(700px 280px at 12% 40%, rgba(166,236,168,.55), transparent 70%),
+        radial-gradient(700px 280px at 86% 40%, rgba(253,253,151,.60), transparent 70%);
+    }
+
+    .hero__inner{
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 22px 22px 20px 22px;
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 18px;
+      align-items: center;
+    }
+
+    @media (max-width: 860px){
+      .hero__inner{ grid-template-columns: 1fr; }
+      .hero__art{ justify-self: start; }
+    }
+
+    .hero__kicker{
+      display:inline-flex;
+      gap:8px;
+      align-items:center;
+      font-weight: 700;
+      letter-spacing: .2px;
+      background: rgba(255,255,255,.55);
+      border: 1px solid var(--border);
+      padding: 8px 12px;
+      border-radius: 999px;
+      box-shadow: var(--shadow);
+    }
+
+    .hero__headline{
+      margin: 12px 0 8px 0;
+      font-size: 34px;
+      line-height: 1.1;
+      letter-spacing: .2px;
+    }
+
+    .hero__sub{
+      margin: 0 0 14px 0;
+      color: var(--muted);
+      max-width: 62ch;
+      font-size: 15px;
+      line-height: 1.45;
+    }
+
+    .countdown{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top: 10px;
+    }
+
+    .cd{
+      min-width: 92px;
+      background: rgba(255,255,255,.70);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 10px 12px;
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+
+    .cd__num{
+      font-size: 26px;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .cd__lab{
+      margin-top: 4px;
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 700;
+      letter-spacing: .6px;
+      text-transform: uppercase;
+    }
+
+    .hero__meta{
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .hero__art{
+      justify-self: end;
+    }
+
+    .bean{
+      width: min(260px, 60vw);
+      height: auto;
+    }
+
+    /* Página */
+    .wrap{
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 18px 22px 34px 22px;
+    }
+
+    #msg{ margin: 14px 0 18px 0; }
+
+    .grid{
+      display:grid;
+      gap: 14px;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      align-items: stretch;
+    }
+
+    .card{
+      background: linear-gradient(180deg, var(--card), var(--card2));
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px;
+      box-shadow: var(--shadow);
+      transition: transform .12s ease, box-shadow .12s ease;
+    }
+
+    .card:hover{
+      transform: translateY(-1px);
+      box-shadow: 0 12px 30px rgba(20,35,20,.12);
+    }
+
+    .reserved{
+      opacity: .92;
+      filter: saturate(.95);
+    }
+
+    .muted{ color: var(--muted); font-size: 14px; line-height: 1.35; }
+
+    a{ color: var(--ink); }
+    a:hover{ text-decoration: none; }
+
+    details{
+      margin-top: 12px;
+      padding-top: 10px;
+      border-top: 1px dashed rgba(33,48,33,.18);
+    }
+
+    summary{
+      cursor:pointer;
+      font-weight: 800;
+      list-style: none;
+    }
+    summary::-webkit-details-marker{ display:none; }
+
+    input, textarea{
+      width:100%;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(33,48,33,.18);
+      background: rgba(255,255,255,.70);
+      color: var(--ink);
+      outline: none;
+      margin-top: 8px;
+    }
+
+    input:focus, textarea:focus{
+      border-color: rgba(119,221,118,.55);
+      box-shadow: 0 0 0 4px rgba(166,236,168,.25);
+    }
+
+    button{
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(33,48,33,.20);
+      background: rgba(255,255,255,.75);
+      color: var(--ink);
+      cursor:pointer;
+      margin-top: 10px;
+      font-weight: 800;
+      transition: transform .08s ease, background .12s ease;
+    }
+
+    button:hover{
+      background: rgba(253,253,151,.55);
+    }
+
+    button:active{ transform: translateY(1px); }
+
+    button.primary{
+      background: rgba(166,236,168,.55);
+      border-color: rgba(33,48,33,.22);
+    }
+
+    button.primary:hover{
+      background: rgba(166,236,168,.75);
+    }
+
+    button:disabled{
+      opacity: .6;
+      cursor: not-allowed;
+    }
+
+    .tokenbox{
+      background: rgba(253,253,151,.55);
+      border: 1px solid rgba(33,48,33,.18);
+      border-radius: var(--radius);
+      padding: 12px 14px;
+      box-shadow: var(--shadow);
+    }
+
+    code{
+      padding: 2px 6px;
+      border-radius: 10px;
+      background: rgba(255,255,255,.75);
+      border: 1px solid rgba(33,48,33,.14);
+    }
   </style>
 </head>
-<body>
-  <h1>Lista de regalos para la Porota 👶🎁</h1>
-  <p class="muted">Acá podes reservar un regalito para la porota. En caso de querer cancelar la reserva escribile a la mamá o al papá ❤️. La porota agradecerá con risitas de bebé.</p>
 
-  <div id="msg"></div>
-  <div id="list" class="grid"></div>
+<body>
+  <!-- Banner full-width -->
+  <header class="hero">
+    <div class="hero__inner">
+      <div class="hero__left">
+        <div class="hero__kicker">🌿💛 Lista de regalos</div>
+        <h1 class="hero__headline">Esperando a la Porota</h1>
+        <p class="hero__sub">
+          Acá podés reservar un regalito para la Porota. Si necesitás cancelar, escribile a la mamá o al papá ❤️
+        </p>
+
+        <div class="countdown" aria-label="Cuenta regresiva">
+          <div class="cd">
+            <div class="cd__num" id="cd_days">—</div>
+            <div class="cd__lab">días</div>
+          </div>
+          <div class="cd">
+            <div class="cd__num" id="cd_hours">—</div>
+            <div class="cd__lab">hs</div>
+          </div>
+          <div class="cd">
+            <div class="cd__num" id="cd_mins">—</div>
+            <div class="cd__lab">min</div>
+          </div>
+        </div>
+
+        <div class="hero__meta" id="cd_label"></div>
+      </div>
+
+      <!-- Poroto minimalista (SVG inline, misma paleta) -->
+      <div class="hero__art" aria-hidden="true">
+        <svg class="bean" viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg" role="img">
+          <defs>
+            <linearGradient id="beanGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="var(--mint)" />
+              <stop offset="100%" stop-color="var(--mint2)" />
+            </linearGradient>
+            <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+              <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="rgba(0,0,0,.12)"/>
+            </filter>
+          </defs>
+
+          <!-- cuerpo poroto -->
+          <path filter="url(#softShadow)"
+            d="M135 24c28 10 45 41 37 73-3 12-2 21 4 32 11 20 5 47-14 63-20 18-48 17-70 7-23-10-38-33-35-58 2-17 10-31 22-42 7-7 9-15 8-26-2-35 19-62 48-69z"
+            fill="url(#beanGrad)" stroke="var(--ink)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+
+          <!-- cara -->
+          <circle cx="95" cy="95" r="6" fill="var(--ink)"/>
+          <circle cx="128" cy="95" r="6" fill="var(--ink)"/>
+          <path d="M102 112c10 10 22 10 32 0" fill="none" stroke="var(--ink)" stroke-width="4" stroke-linecap="round"/>
+
+          <!-- chupete (simple) -->
+          <circle cx="114" cy="128" r="10" fill="var(--butter)" stroke="var(--ink)" stroke-width="3"/>
+          <path d="M100 128c2 14 26 14 28 0" fill="none" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/>
+          <circle cx="114" cy="128" r="4" fill="var(--ink)"/>
+
+          <!-- bracitos / patitas -->
+          <path d="M60 120c-16 6-22 18-22 28" fill="none" stroke="var(--ink)" stroke-width="4" stroke-linecap="round"/>
+          <path d="M160 120c16 6 22 18 22 28" fill="none" stroke="var(--ink)" stroke-width="4" stroke-linecap="round"/>
+
+          <path d="M88 176c-8 16-7 26 0 34" fill="none" stroke="var(--ink)" stroke-width="4" stroke-linecap="round"/>
+          <path d="M132 176c8 16 7 26 0 34" fill="none" stroke="var(--ink)" stroke-width="4" stroke-linecap="round"/>
+
+          <!-- puntitos decor -->
+          <circle cx="30" cy="50" r="4" fill="rgba(255,255,255,.55)"/>
+          <circle cx="190" cy="40" r="3" fill="rgba(255,255,255,.55)"/>
+          <circle cx="200" cy="90" r="4" fill="rgba(255,255,255,.55)"/>
+          <circle cx="35" cy="95" r="3" fill="rgba(255,255,255,.55)"/>
+        </svg>
+      </div>
+    </div>
+  </header>
+
+  <!-- Contenido -->
+  <main class="wrap">
+    <div id="msg"></div>
+    <div id="list" class="grid"></div>
+  </main>
 
   <script src="app.js"></script>
 </body>
-
 </html>
