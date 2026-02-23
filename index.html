@@ -45,16 +45,15 @@
         radial-gradient(700px 240px at 86% 40%, rgba(253,253,151,.50), transparent 70%);
     }
 
-    .hero__inner{
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 14px 18px 12px 18px;
-      display: grid;
-      grid-template-columns: 1.2fr .8fr;
-      gap: 14px;
-      align-items: center;
-    }
-
+   .hero__inner{
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 28px 22px 26px 22px; /* ⬅ banner más alto */
+  display: grid;
+  grid-template-columns: 1.2fr .8fr;
+  gap: 22px;
+  align-items: center;
+}
     @media (max-width: 860px){
       .hero__inner{ grid-template-columns: 1fr; }
       .hero__art{ justify-self: center; }
@@ -77,7 +76,7 @@
 
     .hero__headline{
       margin: 8px 0 6px 0;
-      font-size: 26px;
+      font-size: 34px;
       line-height: 1.1;
       letter-spacing: .2px;
     }
@@ -86,7 +85,7 @@
       margin: 0 0 10px 0;
       color: var(--muted);
       max-width: 70ch;
-      font-size: 14px;
+      font-size: 15px;
       line-height: 1.45;
     }
 
@@ -140,7 +139,7 @@
     }
 
     .porota-img{
-      width: 190px;
+      width: 230px;
       height: auto;
       filter: drop-shadow(0 10px 14px rgba(20,35,20,.14));
     }
@@ -340,4 +339,5 @@
   <script src="app.js"></script>
 </body>
 </html>
+
 
