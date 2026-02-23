@@ -149,8 +149,48 @@ function wireEvents() {
   });
 }
 
+// === Countdown (UTC-03) ===
+const DUE_DATE_ISO = "2026-05-18T00:00:00-03:00";
+
+function pad2(n){ return String(n).padStart(2, "0"); }
+
+function tickCountdown(){
+  const target = new Date(DUE_DATE_ISO).getTime();
+  const now = Date.now();
+  const diff = target - now;
+
+  const label = document.getElementById("cd_label");
+  const elD = document.getElementById("cd_days");
+  const elH = document.getElementById("cd_hours");
+  const elM = document.getElementById("cd_mins");
+
+  if (!elD || !elH || !elM) return;
+
+  if (diff <= 0){
+    elD.textContent = "0";
+    elH.textContent = "00";
+    elM.textContent = "00";
+    if (label) label.textContent = "💚 ¡Llegó la Porota!";
+    return;
+  }
+
+  const days  = Math.floor(diff / (1000*60*60*24));
+  const hours = Math.floor((diff / (1000*60*60)) % 24);
+  const mins  = Math.floor((diff / (1000*60)) % 60);
+
+  elD.textContent = String(days);
+  elH.textContent = pad2(hours);
+  elM.textContent = pad2(mins);
+
+  if (label) label.textContent = `Faltan ${days} días para el 18/05/2026`;
+}
+
+tickCountdown();
+setInterval(tickCountdown, 30_000);
+
 // 👇 IMPORTANTE
 render();
+
 
 
 
