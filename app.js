@@ -17,9 +17,16 @@ async function apiGetList() {
 async function apiReserve(item_id, reserved_by, message) {
   const r = await fetch(API, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ action:"reserve", item_id, reserved_by, message })
+    // 👇 evita el preflight CORS
+    headers: { "Content-Type": "text/plain;charset=utf-8" },
+    body: JSON.stringify({
+      action: "reserve",
+      item_id,
+      reserved_by,
+      message
+    })
   });
+
   const j = await r.json();
   if (!j.ok) throw new Error(j.error || "Error reserve");
   return j.token;
@@ -28,9 +35,15 @@ async function apiReserve(item_id, reserved_by, message) {
 async function apiCancel(item_id, token) {
   const r = await fetch(API, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ action:"cancel", item_id, token })
+    // 👇 evita el preflight CORS
+    headers: { "Content-Type": "text/plain;charset=utf-8" },
+    body: JSON.stringify({
+      action: "cancel",
+      item_id,
+      token
+    })
   });
+
   const j = await r.json();
   if (!j.ok) throw new Error(j.error || "Error cancel");
   return true;
@@ -130,3 +143,4 @@ function wireEvents() {
 
 
 render();
+
