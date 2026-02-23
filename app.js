@@ -52,14 +52,6 @@ function cardTemplate(item) {
         reserved
           ? `
             <div class="muted">✅ Reservado por <b>${escapeHtml(item.reservation.reserved_by)}</b></div>
-
-            <details style="margin-top:10px;">
-              <summary>Cancelar reserva</summary>
-              <div style="margin-top:8px;">
-                <input placeholder="Código de cancelación" data-cancel-token="${escapeAttr(item.id)}" />
-                <button data-cancel="${escapeAttr(item.id)}" style="margin-top:8px;">Cancelar</button>
-              </div>
-            </details>
           `
           : `
             <details style="margin-top:10px;">
@@ -159,5 +151,6 @@ function wireEvents() {
 
 // 👇 IMPORTANTE
 render();
+
 
 
