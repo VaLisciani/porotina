@@ -99,11 +99,11 @@ function cardTemplate(item) {
   const photoUrl = getPhotoUrl_(item);
 
   return `
-    <div class="card ${stateClass}">
-      <div class="row" style="align-items:center; justify-content:space-between;">
-        <span class="badge ${categoryClass_(catText)}">${escapeHtml(catText)}</span>
-        <span class="muted">Prioridad ${escapeHtml(String(item.priority || ""))}</span>
-      </div>
+   <div class="row" style="align-items:center;">
+  <span class="badge ${categoryClass_(catText)}">
+    ${escapeHtml(catText)}
+  </span>
+</div>
 
       <h3 style="margin:8px 0 6px 0;">${escapeHtml(item.title || "")}</h3>
       <div class="muted">Precio est.: ${escapeHtml(String(item.price_est || ""))}</div>
@@ -114,8 +114,8 @@ function cardTemplate(item) {
 
       ${
         reserved
-          ? `<div class="muted">✅ Reservado por <b>${escapeHtml(item.reservation.reserved_by)}</b></div>`
-          : `
+           ? `<div class="muted">✅ Este regalo ya fue reservado</div>`
+  : `
             <details style="margin-top:10px;">
               <summary>Reservar este regalo</summary>
               <div style="margin-top:8px;">
@@ -179,3 +179,4 @@ function wireEvents() {
 tickCountdown();
 setInterval(tickCountdown, 30_000);
 render();
+
