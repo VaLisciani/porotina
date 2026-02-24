@@ -99,7 +99,9 @@ function cardTemplate(item) {
   const photoUrl = getPhotoUrl_(item);
 
   return `
-   <div class="row" style="align-items:center;">
+
+   <div class="card ${stateClass}">
+     <div class="row" style="align-items:center;">
   <span class="badge ${categoryClass_(catText)}">
     ${escapeHtml(catText)}
   </span>
@@ -179,4 +181,5 @@ function wireEvents() {
 tickCountdown();
 setInterval(tickCountdown, 30_000);
 render();
+
 
