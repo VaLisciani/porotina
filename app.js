@@ -110,7 +110,7 @@ function hashStr_(s){
 }
 
 function categoryClass_(category){
-  const idx = hashStr_(category) % 6; // 0..5
+  const idx = hashStr_(category) % 3; // 
   return `cat-${idx}`;
 }
 
@@ -215,6 +215,7 @@ document.addEventListener("change", (e) => {
 });
 
 render();
+
 
 
 
