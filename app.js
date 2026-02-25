@@ -54,7 +54,7 @@ function populateCategoryFilter(items){
   // Armamos un mapeo estable por orden (sin colisiones de hash)
   CATEGORY_CLASS = {};
   cats.forEach((c, i) => {
-    CATEGORY_CLASS[c] = `cat-${i % 3}`; // 3 colores
+    CATEGORY_CLASS[c] = `cat-${i % 5}`; // 3 colores
   });
 
   select.innerHTML =
@@ -128,7 +128,7 @@ function cardTemplate(item) {
   const stateClass = reserved ? "bought" : "available";
   const catText = (item.category || "Sin categoría");
   const photoUrl = getPhotoUrl_(item);
-  <span class="badge ${categoryClass_(catText)}">${escapeHtml(catText)}</span>
+
 
   return `
 
@@ -221,6 +221,7 @@ document.addEventListener("change", (e) => {
 });
 
 render();
+
 
 
 
