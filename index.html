@@ -274,12 +274,12 @@
     }
 
     /* Variantes (paleta verde/amarillo + rojo pastel) */
-    .badge.cat-0{ background: rgba(166,236,168,.75); }  /* mint */
-    .badge.cat-1{ background: rgba(253,253,151,.75); }  /* butter */
-    .badge.cat-2{ background: rgba(231,165,150,.65); }  /* rojo pastel */
-    .badge.cat-3{ background: rgba(166,236,168,.45); }  /* mint suave */
-    .badge.cat-4{ background: rgba(253,253,151,.45); }  /* butter suave */
-    .badge.cat-5{ background: rgba(231,165,150,.45); }  /* rojo suave */
+  .badge.cat-0{ background: rgba(166,236,168,.75) !important; }  /* mint */
+.badge.cat-1{ background: rgba(253,253,151,.75) !important; }  /* butter */
+.badge.cat-2{ background: rgba(231,165,150,.65) !important; }  /* rojo pastel */
+.badge.cat-3{ background: rgba(166,236,168,.45) !important; }  /* mint suave */
+.badge.cat-4{ background: rgba(253,253,151,.45) !important; }  /* butter suave */
+.badge.cat-5{ background: rgba(231,165,150,.45) !important; }  /* rojo suave */
 
     /* Foto del item */
     .card__img{
@@ -293,6 +293,15 @@
       background: rgba(255,255,255,.55);
       display: block;
     }
+#categoryFilter{
+    padding: 8px 12px;
+    border-radius: 14px;
+    border: 1px solid rgba(33,48,33,.18);
+    background: rgba(255,255,255,.85);
+    font-weight: 800;
+    cursor: pointer;
+  }
+    
   </style>
 </head>
 
@@ -303,7 +312,7 @@
         <div class="hero__kicker">🌿💛 Lista de regalos</div>
         <h1 class="hero__headline">Esperando a la Porota</h1>
         <p class="hero__sub">
-          Acá podés reservar un regalito para la Porota. Si necesitás cancelar, escribile a la mamá o al papá ❤️
+          Acá podés reservar un regalito para la Porota. Si necesitás cancelar una reserva, escribile a la mamá o al papá ❤️
         </p>
 
         <div class="countdown" aria-label="Cuenta regresiva">
@@ -333,11 +342,18 @@
 
   <main class="wrap">
     <div id="msg"></div>
+    <div id="filters" style="margin-bottom:16px; display:flex; gap:12px; align-items:center;">
+  <label for="categoryFilter" class="muted" style="font-weight:800;">Filtrar por categoría:</label>
+  <select id="categoryFilter">
+    <option value="__all__">Todas</option>
+  </select>
+</div>
     <div id="list" class="grid"></div>
   </main>
 
   <script src="app.js"></script>
 </body>
 </html>
+
 
 
