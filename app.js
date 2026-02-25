@@ -5,7 +5,7 @@ const DUE_DATE_ISO = "2026-05-18T00:00:00-03:00";
 
 const elList = document.getElementById("list");
 const elMsg = document.getElementById("msg");
-
+let ALL_ITEMS = [];
 function showMsg(html) {
   elMsg.innerHTML = html || "";
 }
@@ -41,6 +41,32 @@ function escapeHtml(s){
 
 function escapeAttr(s){
   return escapeHtml(s).replace(/"/g, "&quot;");
+}
+function populateCategoryFilter(items){
+  const select = document.getElementById("categoryFilter");
+  if (!select) return;
+
+  const cats = [...new Set(
+    items
+      .map(it => (it.category || "").trim())
+      .filter(Boolean)
+  )].sort((a,b) => a.localeCompare(b, "es"));
+
+  select.innerHTML =
+    `<option value="__all__">Todas</option>` +
+    cats.map(c => `<option value="${escapeAttr(c)}">${escapeHtml(c)}</option>`).join("");
+}
+
+function applyFilters(){
+  const select = document.getElementById("categoryFilter");
+  const selected = select ? select.value : "__all__";
+
+  const filtered = (selected === "__all__")
+    ? ALL_ITEMS
+    : ALL_ITEMS.filter(it => String(it.category || "").trim() === selected);
+
+  elList.innerHTML = filtered.map(cardTemplate).join("");
+  wireEvents();
 }
 
 function pad2(n){ return String(n).padStart(2, "0"); }
@@ -136,9 +162,13 @@ async function render() {
   showMsg("");
   elList.innerHTML = "Cargando...";
   try {
-    const items = await apiGetList();
-    elList.innerHTML = items.map(cardTemplate).join("");
-    wireEvents();
+    ALL_ITEMS = await apiGetList();
+
+    // DEBUG: mirá esto en consola (F12)
+    console.log("items:", ALL_ITEMS.length, "sample:", ALL_ITEMS[0]);
+
+    populateCategoryFilter(ALL_ITEMS);
+    applyFilters();
   } catch (e) {
     elList.innerHTML = "";
     showMsg(`<p style="color:#b00; font-weight:800;">${escapeHtml(e.message)}</p>`);
@@ -180,6 +210,11 @@ function wireEvents() {
 // Init
 tickCountdown();
 setInterval(tickCountdown, 30_000);
+document.addEventListener("change", (e) => {
+  if (e.target && e.target.id === "categoryFilter") applyFilters();
+});
+
 render();
+
 
 
