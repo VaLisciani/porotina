@@ -6,6 +6,7 @@ const DUE_DATE_ISO = "2026-05-18T00:00:00-03:00";
 const elList = document.getElementById("list");
 const elMsg = document.getElementById("msg");
 let ALL_ITEMS = [];
+let CATEGORY_CLASS = {};
 function showMsg(html) {
   elMsg.innerHTML = html || "";
 }
@@ -47,10 +48,14 @@ function populateCategoryFilter(items){
   if (!select) return;
 
   const cats = [...new Set(
-    items
-      .map(it => (it.category || "").trim())
-      .filter(Boolean)
+    items.map(it => (it.category || "").trim()).filter(Boolean)
   )].sort((a,b) => a.localeCompare(b, "es"));
+
+  // Armamos un mapeo estable por orden (sin colisiones de hash)
+  CATEGORY_CLASS = {};
+  cats.forEach((c, i) => {
+    CATEGORY_CLASS[c] = `cat-${i % 3}`; // 3 colores
+  });
 
   select.innerHTML =
     `<option value="__all__">Todas</option>` +
@@ -110,8 +115,8 @@ function hashStr_(s){
 }
 
 function categoryClass_(category){
-  const idx = hashStr_(category) % 3; // 
-  return `cat-${idx}`;
+  const c = String(category || "").trim();
+  return CATEGORY_CLASS[c] || "cat-0";
 }
 
 function getPhotoUrl_(item){
@@ -123,6 +128,7 @@ function cardTemplate(item) {
   const stateClass = reserved ? "bought" : "available";
   const catText = (item.category || "Sin categoría");
   const photoUrl = getPhotoUrl_(item);
+  <span class="badge ${categoryClass_(catText)}">${escapeHtml(catText)}</span>
 
   return `
 
@@ -215,6 +221,7 @@ document.addEventListener("change", (e) => {
 });
 
 render();
+
 
 
 
